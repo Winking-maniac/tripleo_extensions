@@ -1,0 +1,6 @@
+parameter_defaults:
+  NetConfigDataLookup:
+    overcloud-compute-0:
+      nic1: 52:54:00:a7:86:85
+    overcloud-controller-0:
+      nic1: 52:54:00:1c:c5:58

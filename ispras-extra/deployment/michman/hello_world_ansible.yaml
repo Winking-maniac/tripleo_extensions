@@ -1,0 +1,40 @@
+heat_template_version: rocky
+
+description: >
+  Hello-world ansible
+
+parameters:
+  ServiceData:
+    default: {}
+    description: Dictionary packing service data
+    type: json
+  ServiceNetMap:
+    default: {}
+    type: json
+  RoleName:
+    default: ''
+    description: Role name on which the service is applied
+    type: string
+  RoleParameters:
+    default: {}
+    description: Parameters specific to the role
+    type: json
+  DefaultPasswords:
+    default: {}
+    type: json
+  EndpointMap:
+    default: {}
+    type: json
+
+outputs:
+  role_data:
+    description: touching hello-world file via ansible 
+    value:
+      service_name: hello-world
+      upgrade_tasks: []
+      step_config: ''
+      host_prep_tasks:
+        - name: hello-world-ansible
+          block:
+          - include_role:
+              name: hello-world-ansible

@@ -1,0 +1,49 @@
+- CountDefault: '1'
+  HostnameFormatDefault: '%stackname%-controller-%index%'
+  ServicesDefault:
+  - OS::TripleO::Services::Sshd
+  - OS::TripleO::Services::HelloWorld
+  - OS::TripleO::Services::HelloWorldContainer
+  default_route_networks:
+  - External
+  deprecated_nic_config_name: controller.yaml
+  deprecated_param_extraconfig: controllerExtraConfig
+  deprecated_param_flavor: OvercloudControlFlavor
+  deprecated_param_image: controllerImage
+  description: 'Controller role that has all the controler services loaded and handles
+
+    Database, Messaging and Network functions.
+
+    '
+  name: Controller
+  networks:
+    External:
+      subnet: external_subnet
+    InternalApi:
+      subnet: internal_api_subnet
+    Storage:
+      subnet: storage_subnet
+  tags:
+  - primary
+  - controller
+  update_serial: '1'
+  uses_deprecated_params: 'True'
+- CountDefault: '1'
+  HostnameFormatDefault: '%stackname%-novacomputeiha-%index%'
+  RoleParametersDefault:
+    TunedProfileName: virtual-host
+  ServicesDefault:
+  - OS::TripleO::Services::Sshd
+  - OS::TripleO::Services::HelloWorld
+  default_route_networks:
+  - ''
+  description: 'Compute Instance HA Node role to be used with -e environments/compute-instanceha.yaml
+
+    '
+  name: ComputeInstanceHA
+  networks:
+    InternalApi:
+      subnet: internal_api_subnet
+    Storage:
+      subnet: storage_subnet
+  update_serial: '25'

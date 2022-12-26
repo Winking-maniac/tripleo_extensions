@@ -1,0 +1,54 @@
+parameter_defaults:
+  DockerInsecureRegistryAddress: undercloud.ctlplane:13787
+  HeartbeatTimeoutThreshold: '300'
+  OvercloudComputeInstanceHAFlavor: compute
+  OvercloudControllerFlavor: control
+  OvercloudStandaloneFlavor: ceph-storage
+  RpcResponseTimeout: '1800'
+  SELinuxMode: permissive
+  TimeZone: Etc/GMT-3
+  ValidateGatewaysIcmp: false
+  NeutronEnableDVR: false
+  NeutronGlobalPhysnetMtu: 1558
+  NeutronNetworkType: vlan,geneve
+  NeutronReportInterval: 120
+  NeutronResyncInterval: 60
+  NeutronWorkers: 28
+  CinderDefaultVolumeType: __DEFAULT__
+  GlanceEnabledImportMethods: web-download
+  GlanceNodeStagingUri: file:///var/lib/glance/staging
+  HorizonImageBackend:
+    image_formats:
+    - qcow2
+    - raw
+    - iso
+    - vdi
+    - vhd
+    - vmdk
+  HorizonInstanceOptions:
+    create_volume: 'true'
+    disable_instance_snapshot: 'false'
+    disable_volume: 'false'
+    disable_volume_snapshot: 'false'
+    enable_scheduler_hints: 'true'
+  HorizonNeutronOptions:
+    enable_firewall: 'true'
+    enable_lb: 'true'
+    enable_quotas: 'true'
+    enable_security_group: 'true'
+    enable_vpn: 'true'
+  LibvirtLiveMigrationCompletionTimeout: 1800
+  NovaAllowResizeToSameHost: true
+  NovaCPUAllocationRatio: '16.0'
+  NovaDiskAllocationRatio: '1.5'
+  NovaRAMAllocationRatio: '1.0'
+  NovaSchedulerDefaultFilters:
+  - AllHostsFilter
+  - ComputeFilter
+  - ComputeCapabilitiesFilter
+  - AggregateInstanceExtraSpecsFilter
+  - RetryFilter
+  - AvailabilityZoneFilter
+  - ImagePropertiesFilter
+  - ServerGroupAntiAffinityFilter
+  - ServerGroupAffinityFilter

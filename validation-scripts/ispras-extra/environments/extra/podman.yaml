@@ -1,0 +1,8 @@
+# Environment that enables Podman.
+resource_registry:
+  OS::TripleO::Services::Podman: ../../../deployment/podman/podman-baremetal-ansible.yaml
+  OS::TripleO::Services::Docker: OS::Heat::None
+
+parameter_defaults:
+  MistralDockerGroup: false
+  ContainerCli: podman

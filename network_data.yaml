@@ -1,0 +1,30 @@
+- allocation_pools:
+  - end: 172.16.1.199
+    start: 172.16.1.30
+  ip_subnet: 172.16.1.0/24
+  mtu: '1500'
+  name: External
+  name_lower: external
+  routes: []
+  vip: 'true'
+  vlan: '1'
+- allocation_pools:
+  - end: 172.16.2.198
+    start: 172.16.2.30
+  ip_subnet: 172.16.2.0/24
+  mtu: '1500'
+  name: InternalApi
+  name_lower: internal_api
+  routes: []
+  vip: 'true'
+  vlan: '2'
+- allocation_pools:
+  - end: 172.16.3.199
+    start: 172.16.3.30
+  ip_subnet: 172.16.3.0/24
+  mtu: '1500'
+  name: Storage
+  name_lower: storage
+  routes: []
+  vip: 'false'
+  vlan: '3'

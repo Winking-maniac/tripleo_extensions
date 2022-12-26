@@ -1,0 +1,98 @@
+# Generated with the following on 2020-04-11T07:33:42.157410
+#
+#   openstack tripleo container image prepare default --output-env-file containers-prepare-parameter.yaml
+
+parameter_defaults:
+  ContainerImagePrepare:
+  - push_destination: true
+    excludes:
+    - haproxy
+    - rabbitmq
+    - cinder-volume
+    - mariadb
+    - ovn-northd
+    - redis
+    set:
+      name_prefix: centos-binary-
+      name_suffix: ''
+      namespace: 192.168.24.1:8787/tripleostein
+      tag: 5751fc7dd0cf573d8c60b3de597116b515e0fd7d_c992c9c0
+  - push_destination: true
+    includes:
+    - haproxy
+    set:
+      name_prefix: centos-binary-
+      name_suffix: ''
+      namespace: 192.168.24.1:8787/tripleostein
+      tag: 5751fc7dd0cf573d8c60b3de597116b515e0fd7d_c992c9c0
+    modify_role: tripleo-modify-image
+    modify_append_tag: "_pacemaker2"
+    modify_vars:
+      tasks_from: modify_image.yml
+      modify_dir_path: ispras-extra/dockerfiles/haproxy
+  - push_destination: true
+    includes:
+    - rabbitmq
+    set:
+      name_prefix: centos-binary-
+      name_suffix: ''
+      namespace: 192.168.24.1:8787/tripleostein
+      tag: 5751fc7dd0cf573d8c60b3de597116b515e0fd7d_c992c9c0
+    modify_role: tripleo-modify-image
+    modify_append_tag: "_pacemaker2"
+    modify_vars:
+      tasks_from: modify_image.yml
+      modify_dir_path: ispras-extra/dockerfiles/rabbitmq
+  - push_destination: true
+    includes:
+    - cinder-volume
+    set:
+      name_prefix: centos-binary-
+      name_suffix: ''
+      namespace: 192.168.24.1:8787/tripleostein
+      tag: 5751fc7dd0cf573d8c60b3de597116b515e0fd7d_c992c9c0
+    modify_role: tripleo-modify-image
+    modify_append_tag: "_pacemaker2"
+    modify_vars:
+      tasks_from: modify_image.yml
+      modify_dir_path: ispras-extra/dockerfiles/cinder-volume
+  - push_destination: true
+    includes:
+    - mariadb
+    set:
+      name_prefix: centos-binary-
+      name_suffix: ''
+      namespace: 192.168.24.1:8787/tripleostein
+      tag: 5751fc7dd0cf573d8c60b3de597116b515e0fd7d_c992c9c0
+    modify_role: tripleo-modify-image
+    modify_append_tag: "_pacemaker2"
+    modify_vars:
+      tasks_from: modify_image.yml
+      modify_dir_path: ispras-extra/dockerfiles/mysql
+  - push_destination: true
+    includes:
+    - ovn-northd
+    set:
+      name_prefix: centos-binary-
+      name_suffix: ''
+      namespace: 192.168.24.1:8787/tripleostein
+      tag: 5751fc7dd0cf573d8c60b3de597116b515e0fd7d_c992c9c0
+    modify_role: tripleo-modify-image
+    modify_append_tag: "_pacemaker2"
+    modify_vars:
+      tasks_from: modify_image.yml
+      modify_dir_path: ispras-extra/dockerfiles/ovn-dbs
+  - push_destination: true
+    includes:
+    - redis
+    set:
+      name_prefix: centos-binary-
+      name_suffix: ''
+      namespace: 192.168.24.1:8787/tripleostein
+      tag: 5751fc7dd0cf573d8c60b3de597116b515e0fd7d_c992c9c0
+    modify_role: tripleo-modify-image
+    modify_append_tag: "_pacemaker2"
+    modify_vars:
+      tasks_from: modify_image.yml
+      modify_dir_path: ispras-extra/dockerfiles/redis
+

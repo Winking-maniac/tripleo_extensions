@@ -1,0 +1,26 @@
+# This is an example template on how to configure keystone domain specific LDAP
+# backends. This will configure a domain called tripleoldap will the attributes
+# specified.
+parameter_defaults:
+  KeystoneLDAPDomainEnable: true
+  KeystoneLDAPBackendConfigs:
+    ispras:
+      url: ''
+      user: ''
+      password: ''
+      suffix: ;;
+      user_tree_dn: cn=Users
+      user_filter: ''
+      user_objectclass: person
+      user_name_attribute: name
+      user_mail_attribute: mail
+      user_description_attribute: cn
+      query_scope: sub
+      page_size: 1
+      user_attribute_ignore: default_project_id
+      group_tree_dn: ''
+      group_objectclass: group
+      group_name_attribute: cn
+      group_member_attribute: member
+      group_members_are_ids: false
+      group_desc_attribute: description

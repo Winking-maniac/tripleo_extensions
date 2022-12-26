@@ -1,0 +1,61 @@
+19a20,24
+>   EndpointMap:
+>     default: {}
+>     description: Mapping of service endpoint -> protocol. Typically set
+>                  via parameter_defaults in the resource registry.
+>     type: json
+33,53d37
+<   ExternalPublicUrl:
+<     description: (DEPRECATED) Public endpoint url for the external swift proxy
+<     type: string
+<     default: 'deprecated'
+<   ExternalInternalUrl:
+<     description: (DEPRECATED) Internal endpoint url for the external swift proxy
+<     type: string
+<     default: 'deprecated'
+<   ExternalAdminUrl:
+<     description: (DEPRECATED) External endpoint url for the external swift proxy
+<     type: string
+<     default: 'deprecated'
+<   ExternalSwiftPublicUrl:
+<     description: Public endpoint url for the external swift proxy
+<     type: string
+<   ExternalSwiftInternalUrl:
+<     description: Internal endpoint url for the external swift proxy
+<     type: string
+<   ExternalSwiftAdminUrl:
+<     description: External endpoint url for the external swift proxy
+<     type: string
+65a50,55
+>   ExternalSwiftProxyNodeIps:
+>     default: []
+>     type: comma_delimited_list
+>   ExternalSwiftProxyNodeNames:
+>     default: []
+>     type: comma_delimited_list
+91a82,86
+>         swift_proxy_enabled: true
+>         swift_proxy_network: 'storage'
+>         swift::proxy::port: 8080
+>         swift_proxy_node_ips: {get_param: ExternalSwiftProxyNodeIps}
+>         swift_proxy_node_names: {get_param: ExternalSwiftProxyNodeNames}
+98,112c93,95
+<             public:
+<               if:
+<               - deprecated_external_public_url
+<               - {get_param: ExternalPublicUrl}
+<               - {get_param: ExternalSwiftPublicUrl}
+<             internal:
+<               if:
+<               - deprecated_external_internal_url
+<               - {get_param: ExternalInternalUrl}
+<               - {get_param: ExternalSwiftInternalUrl}
+<             admin:
+<               if:
+<               - deprecated_external_admin_url
+<               - {get_param: ExternalAdminUrl}
+<               - {get_param: ExternalSwiftAdminUrl}
+---
+>             public: {get_param: [EndpointMap, SwiftProxyServerPublic, uri]}
+>             internal: {get_param: [EndpointMap, SwiftServerProxyInternal, uri]}
+>             admin: {get_param: [EndpointMap, SwiftServerProxyAdmin, uri]}

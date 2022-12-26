@@ -1,0 +1,6 @@
+parameter_defaults:
+  DnsServers: ''
+  NtpServer: 192.168.24.1
+resource_registry:
+  OS::TripleO::ComputeInstanceHA::Net::SoftwareConfig: ../../../network/config/single-nic-vlans/computeinstanceha.yaml
+  OS::TripleO::Controller::Net::SoftwareConfig: ../../../network/config/single-nic-vlans/controller.yaml

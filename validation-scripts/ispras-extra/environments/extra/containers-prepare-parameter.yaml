@@ -1,0 +1,10 @@
+parameter_defaults:
+  ContainerImagePrepare:
+  - set:
+      name_prefix: openstack-
+      name_suffix: ''
+      namespace: undercloud.ctlplane:13787/image/docker/images/ispras/minos
+      neutron_driver: ovn
+      rhel_containers: false
+      tag: latest
+    push_destination: false

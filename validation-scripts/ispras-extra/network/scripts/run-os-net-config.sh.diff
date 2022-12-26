@@ -1,0 +1,12 @@
+79c79
+<     if_use_dhcp=true # ispras added
+---
+>     if_use_dhcp=true
+104c104
+<     use_dhcp: $if_use_dhcp # ispras changed
+---
+>     use_dhcp: $if_use_dhcp
+106c106
+<             if_use_dhcp=false # ispras added
+---
+>             if_use_dhcp=false

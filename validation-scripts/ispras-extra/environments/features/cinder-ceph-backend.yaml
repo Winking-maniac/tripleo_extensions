@@ -1,0 +1,7 @@
+parameter_defaults:
+  CinderBackupBackend: ceph
+  CinderBackupRbdPoolName: backups
+  CinderEnableRbdBackend: true
+  CinderBackupBackend: ceph
+  CinderRbdPoolName: volumes
+  CinderBackupRbdPoolName: backups

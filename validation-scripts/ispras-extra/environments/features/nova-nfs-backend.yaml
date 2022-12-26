@@ -1,0 +1,5 @@
+parameter_defaults:
+  NovaNfsEnabled: false
+  NovaNfsOptions: context=system_u:object_r:nfs_t:s0
+  NovaNfsShare: ''
+  NovaNfsVersion: '4.2'

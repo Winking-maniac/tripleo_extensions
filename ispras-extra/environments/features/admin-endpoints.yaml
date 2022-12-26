@@ -1,0 +1,6 @@
+resource_registry:
+  OS::TripleO::EndpointMap: ../../network/endpoints/admin_endpoint_map.yaml
+
+parameter_defaults: 
+  ServiceNetMap:
+    AdminNetwork: ctlplane
