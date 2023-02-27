@@ -15,7 +15,7 @@ environments:
 - path: ispras-extra/environments/extra/ispras-services.yaml
 - path: ispras-extra/environments/features/cinder-iscsi-backend.yaml
 - path: ispras-extra/environments/features/nonha-arch.yaml
-- path: ispras-extra/environments/extra/michman.yaml
+- path: ispras-extra/environments/features/michman.yaml
 name: overcloud
 passwords:
   AdminPassword: veryhardpass

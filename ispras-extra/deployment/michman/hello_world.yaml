@@ -1,13 +1,9 @@
 heat_template_version: rocky
 
 description: >
-  Hello-world container
+  Hello-world ansible
 
 parameters:
-  ContainerHelloWorldImage:
-    default: ''
-    description: no description
-    type: string
   ServiceData:
     default: {}
     description: Dictionary packing service data
@@ -32,23 +28,13 @@ parameters:
 
 outputs:
   role_data:
-    description: hello-world container
+    description: touching hello-world file via ansible 
     value:
-      service_name: hello_world_container
+      service_name: hello-world
       upgrade_tasks: []
       step_config: ''
-      firewall_rules:
-        '200 vault':
-          dport:
-            - 8200
-      docker_config:
-        step_4:
-          hello_world_container:
-            image: {get_param: ContainerHelloWorldImage}
-            net: host
-            detach: true
-            user: root
-            command: ['/bin/sh']
-
-
-
+      host_prep_tasks:
+        - name: hello-world-ansible
+          block:
+          - include_role:
+              name: hello-world-ansible

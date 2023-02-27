@@ -1,0 +1,7 @@
+resource_registry:
+  OS::TripleO::Services::HelloWorld: ../../deployment/michman/hello_world.yaml
+  OS::TripleO::Services::HelloWorldContainer: ../../deployment/michman/hello_world_container.yaml
+  OS::TripleO::Services::Vault: ../../deployment/michman/vault.yaml
+parameter_defaults:
+  VaultPassword: winkingtest
+  MichmanPassword: anotherwinkingtest

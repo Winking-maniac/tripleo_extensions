@@ -1,0 +1,112 @@
+heat_template_version: rocky
+
+description: >
+  Vault container
+
+parameters:
+  ContainerVaultImage:
+    default: ''
+    description: image for vault container service
+    type: string
+  ServiceData:
+    default: {}
+    description: Dictionary packing service data
+    type: json
+  ServiceNetMap:
+    default: {}
+    type: json
+  RoleName:
+    default: ''
+    description: Role name on which the service is applied
+    type: string
+  RoleParameters:
+    default: {}
+    description: Parameters specific to the role
+    type: json
+  DefaultPasswords:
+    default: {}
+    type: json
+  EndpointMap:
+    default: {}
+    type: json
+  VaultPassword:
+    description: The password for db account, used by the vault.
+    type: string
+    hidden: true
+  VaultDatabaseName:
+    description: Name of mysql database used by vault
+    type: string
+    default: vault
+  VaultDatabaseUser:
+    description: Mysql user for vault
+    type: string
+    default: vault
+
+outputs:
+  role_data:
+    description: vault container
+    value:
+      service_name: vault
+      upgrade_tasks: []
+      step_config: ''
+      firewall_rules:
+        '200 vault':
+          dport:
+            - 8200
+      config_settings:
+        map_merge:
+          - vault::config::mysql_addr: {get_param: [EndpointMap, MysqlInternal, host]}
+            vault::config::api_addr: {get_param: [EndpointMap, MysqlInternal, host]}
+            vault::config::port: 8200
+            vault::config::database_name: {get_param: VaultDatabaseName}
+            vault::config::database_user: {get_param: VaultDatabaseUser}
+            vault::config::database_password: {get_param: VaultPassword}
+      puppet_config:
+        config_volume: vault_config
+        puppet_tags: vault_config
+        step_config: include tripleo::profile::base::vault
+        config_image: {get_param: ContainerVaultImage}
+      kolla_config:
+        /var/lib/kolla/config_files/vault.json:
+          command: /opt/vault/vault-start
+          config_files:
+            - source: "/var/lib/kolla/config_files/src/*"
+              dest: "/"
+              merge: true
+              preserve_properties: true
+      docker_config:
+        step_4:
+          vault:
+            image: {get_param: ContainerVaultImage}
+            net: host
+            privileged: true
+            detach: true
+            user: root
+            restart: always
+            volumes:
+              - /var/lib/kolla/config_files/vault.json:/var/lib/kolla/config_files/config.json:ro
+              - /var/lib/config-data/puppet-generated/vault_config:/var/lib/kolla/config_files/src:ro
+              - /etc/vault/:/etc/vault/file:rw
+              - /opt/vault:/opt/vault
+            environment:
+              KOLLA_CONFIG_STRATEGY: COPY_ALWAYS
+      service_config_settings:
+        mysql:
+          vault::db::mysql::password: {get_param: VaultPassword}
+          vault::db::mysql::user: {get_param: VaultDatabaseUser}
+          vault::db::mysql::host: {get_param: [EndpointMap, MysqlInternal, host_nobrackets]}
+          vault::db::mysql::dbname: {get_param: VaultDatabaseName}
+          vault::db::mysql::allowed_hosts:
+            - '%'
+            - "%{hiera('mysql_bind_host')}"
+      fast_forward_upgrade_tasks:
+        - when:
+            - step|int == 0
+            - release == 'rocky'
+          block:
+            - name: Set fact vault_enabled
+              set_fact:
+                vault_enabled: true
+
+
+
