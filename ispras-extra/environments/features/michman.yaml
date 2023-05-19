@@ -2,6 +2,37 @@ resource_registry:
   OS::TripleO::Services::HelloWorld: ../../deployment/michman/hello_world.yaml
   OS::TripleO::Services::HelloWorldContainer: ../../deployment/michman/hello_world_container.yaml
   OS::TripleO::Services::Vault: ../../deployment/michman/vault.yaml
+  OS::TripleO::Services::Michman: ../../deployment/michman/michman.yaml
 parameter_defaults:
   VaultPassword: winkingtest
   MichmanPassword: anotherwinkingtest
+  MichmanEnabled: True
+  MichmanOpenstackPassword: yetanotherwinkingtest
+  MichmanSshKey: |
+    -----BEGIN RSA PRIVATE KEY-----
+    MIIEpQIBAAKCAQEAytgRS5tkRl2Fm+be2teXgDa3mI/QPN9meMrGtTnVdjrOp7Sa
+    MTymx3ntwAM17+vp/rrD01Q83beGpwEY/z9R3RpORulGVO7S/XtCw9qos/w9LxEC
+    uuDAM8HLd6JruVpFghrEOz5l198mAqN65PToExey3aeML75/ZYjgoo+jXircViQw
+    4qG5AOQcqoEgw3otOCrjaOCE0fR+gQyJaliBTCfCfCLtSd3G1IDgkAcJ/W+uZHt7
+    XwUT1Xy7nIc4DZIZZQNwmuptBWpK66nSDFfyZ1ep7ZXgm5v7P/zokEj8Q8B15KGQ
+    bGn3vOIjoosg5Vx0c4s1XEAElz9oavacjCc2OQIDAQABAoIBAQCNCOQlnJqA7j+a
+    oVBr+qCE7gaDVeLkoDPAYsT8doS72rGbG1BmUZRod5dd/R2AfphIm5TSl+xmAFfo
+    QDQgLOd/gu3QEhvrq84Znp1STfMkiYoE8p/iTah1lBYjTVP3IRPZHUE5K+5lxOrJ
+    xN8K2FmQBNdBlGA9RgeQEjaV8KcXLhobDj9+C4/TZoRhuRQKNMRMB8tgKX88B0pR
+    OaHEPQIACMHy2nAcVfbfQtqzoY0JAkJ9gklpwVJ5rdiYsj0wRf9kFRfG5LauPYX/
+    s+OGAnHxl7w+oUmSDwHQzjqeIPJkQWQLK7VCW6qiIvTrUDSXobaGhZI1QNhZ/4cG
+    pDdjAQ6BAoGBAPVYCQrH0iF8ul8oyWALsX0ne9RW9MoQ2n24Aj3RgC2ThprrXPOO
+    57NbBdRwlyS69fE08y85uV/+Q0kt8B1TfuUzBh9J4ed/tiC/bXT0PibKQ4wlTleW
+    A9zUfDHecdNC5nbjA3q2y46KVDwQaaic+hFWEjE+RFBWkG7ZWOIct/uJAoGBANOn
+    eoNV4RqtOUxKFbM0bC7SaBsH+61UZ70hFl5fm+ztNH61xxDMrLgoGp/E9jcImhGA
+    4M4xeLxkNuaECRRXgR+481AGQlzAgd1ST2+SmRcutQlY5cjnQNNS5p+lsOMBmwhK
+    NdxqalHn647ZJ3FC04jrAqk77Wn0RErpj33pBkkxAoGBAJ22vvFILINMW74qSPFN
+    8wXCKO8CCxAOL3YboI0+rIgfyqqx3CnRVo7MV34N9ostCEbLQ/y6vbjAiV50gmNH
+    tk3+M9RPOUIIrfp1NBa3n3BuG2fu32KcU9VUXpXsKf2lhuMr4aOz+DykHawS3OkA
+    KByW2NEA9wcx7lzjqSiJT5gJAoGBAJLbVS2FzCA3a1dc3DuwtxOx2JxQ6Lc2pphb
+    OesXidhWKiN1O3+TlJBe+0I6ZuB+rnBQrStEtlJ5coJ1wNsFcEmzidfP0AINbM5F
+    S2rOHD0yoliu/xlsI9W9YtoJHHgWaBzTaRXcHJNiSVafpDd5N897ySfltfDblPsp
+    ne+uXTcxAoGAT5DgDeGPi1gp6dD7ePhvIxb/kUP4HJ1ezc+4AAnSX083HgjD9lh1
+    hmjebwWJzwdWOEBQWN1jCiFO8srQ34/A2NmFjqvtoCoDHvcMoAUjP7qTEBaaIeJI
+    Tl139M27nH54KdfXd29YrPK0lK4r6aVVgimqrVi+MWdjPPBWVhh3DUw=
+    -----END RSA PRIVATE KEY-----

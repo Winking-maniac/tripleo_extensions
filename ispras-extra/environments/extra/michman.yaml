@@ -1,6 +1,0 @@
-resource_registry:
-  OS::TripleO::Services::HelloWorld: ../../deployment/michman/hello_world_ansible.yaml
-  OS::TripleO::Services::HelloWorldContainer: ../../deployment/michman/hello_world_container.yaml
-parameter_defaults:
-  MotdMessage: |
-    You have successfully accessed my ISP RAS OpenStack Platform environment!

@@ -1,6 +1,0 @@
-parameter_defaults:
-  DeployedSSLCertificatePath: /etc/pki/tls/private/overcloud_endpoint.pem
-  HorizonSecureCookies: true
-  SSLCertificate: ''
-  SSLIntermediateCertificate: ''
-  SSLKey: ''

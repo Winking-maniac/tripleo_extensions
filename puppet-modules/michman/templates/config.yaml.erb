@@ -1,0 +1,24 @@
+os_key_name: <%= @ssh_key_name %>
+os_version: <%= @os_version %>
+boot_from_volume: <%= @boot_from_volume %>
+
+vault_addr: http://<%= @vault_addr %>:<%= @vault_port %>
+os_key: <%= @vault_prefix %>/<%= @os_key_path %>
+ssh_key: <%= @vault_prefix %>/<%= @ssh_key_path %>
+storage: mysql
+mysql_key: <%= @vault_prefix %>/<%= @mysql_key_path %>
+
+logs_output: file
+http_logs_file_path: /var/log/
+launcher_logs_file_path: /var/log/
+ansible_logs_file_path: /var/log/
+
+use_auth: False
+auth_config_path: "/configs/auth_model.conf"
+policy_path: "/configs/policy.csv"
+authorization_model: keystone
+admin_group: member
+session_idle_timeout: 480 #time in minutes, controls the maximum length of time a session can be inactive before it expires
+session_lifetime: 960 #time in minutes, controls the maximum length of time that a session is valid for before it expires
+keystone_addr: <%= @keystone_addr %>
+

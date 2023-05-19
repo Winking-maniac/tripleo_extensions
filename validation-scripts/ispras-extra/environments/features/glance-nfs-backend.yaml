@@ -1,7 +1,0 @@
-parameter_defaults:
-  GlanceBackend: file
-  GlanceNfsEnabled: true
-  GlanceNfsOptions: _netdev,rw,sync,context=system_u:object_r:glance_var_lib_t:s0
-  GlanceNfsShare: ''
-  GlanceStagingNfsOptions: _netdev,rw,sync,context=system_u:object_r:glance_var_lib_t:s0
-  GlanceStagingNfsShare: ''

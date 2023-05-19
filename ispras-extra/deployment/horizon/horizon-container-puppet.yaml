@@ -156,7 +156,10 @@ parameters:
       profile_support: None
     type: json
     description:  A hash of parameters to enable features specific to Neutron.
-
+  MichmanEnabled:
+    default: false
+    type: boolean
+    description: Enables Michman tab
 parameter_groups:
 - label: deprecated
   description: |
@@ -170,6 +173,7 @@ parameter_groups:
 conditions:
   debug_unset: {equals : [{get_param: Debug}, '']}
   websso_enabled: {equals : [{get_param: WebSSOEnable}, True]}
+  michman_enabled: {equals : [{get_param: MichmanEnabled}, True]}
   internal_tls_enabled: {equals: [{get_param: EnableInternalTLS}, true]}
   horizon_domain_choices_set: {not: {equals: [{get_param: HorizonDomainChoices}, []]}}
   is_ipv6:
@@ -256,6 +260,10 @@ outputs:
         - if:
           - horizon_domain_choices_set
           - horizon::keystone_domain_choices: {get_param: HorizonDomainChoices}
+          - {}
+        - if:
+          - michman_enabled
+          - horizon::local_settings: horizon/local_settings_michman.py.erb
           - {}
       ansible_group_vars:
         keystone_enable_member: true

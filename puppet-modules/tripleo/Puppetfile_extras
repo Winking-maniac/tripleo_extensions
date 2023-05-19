@@ -1,0 +1,85 @@
+
+## TripleO Puppet modules
+
+mod 'haproxy',
+  :git => 'https://github.com/puppetlabs/puppetlabs-haproxy',
+  :ref => 'master'
+
+mod 'tomcat',
+  :git => 'https://github.com/puppetlabs/puppetlabs-tomcat',
+  :ref => '1.3.2'
+
+mod 'java',
+  :git => 'https://github.com/puppetlabs/puppetlabs-java',
+  :ref => '1.4.2'
+
+mod 'cassandra',
+  :git => 'https://github.com/voxpupuli/puppet-cassandra',
+  :ref => '1.9.2'
+
+mod 'zookeeper',
+  :git => 'https://github.com/deric/puppet-zookeeper',
+  :ref => 'v0.3.9'
+
+mod 'datacat',
+  :git => 'https://github.com/richardc/puppet-datacat',
+  :ref => '0.6.2'
+
+mod 'etcd',
+  :git => 'https://github.com/puppet-etcd/puppet-etcd',
+  :ref => 'master'
+
+mod 'fdio',
+  :git => 'https://git.fd.io/puppet-fdio',
+  :ref => 'master'
+
+mod 'certmonger',
+  :git => 'https://github.com/saltedsignal/puppet-certmonger',
+  :ref => 'v2.6.0'
+
+mod 'ptp',
+  :git => 'https://github.com/redhat-nfvpe/ptp',
+  :ref => 'master'
+
+# NOTE(aschultz): Pinned due to LP#1755211
+mod 'systemd',
+  :git => 'https://github.com/camptocamp/puppet-systemd',
+  :ref => '20a465b0d8751bc08913b556d0a5b7fdac139271'
+
+# NOTE(aschultz): rsyslog broke backwards compatibility with
+# https://github.com/voxpupuli/puppet-rsyslog/pull/136
+mod 'rsyslog',
+  :git => 'https://github.com/voxpupuli/puppet-rsyslog',
+  :ref => '2548a0d95c1549b506b7bb2314dd149b028fc04b'
+
+mod 'ssh',
+  :git => 'https://github.com/saz/puppet-ssh',
+  :ref => 'v3.0.1'
+
+# NOTE(aschultz): Pine due to LP#1800944
+mod 'snmp',
+  :git => 'https://github.com/voxpupuli/puppet-snmp',
+  :ref => '4345049a23cd11e68ac51be13a3a1493a3454370'
+
+mod 'pacemaker',
+  :git => 'https://github.com/openstack/puppet-pacemaker',
+  :ref => 'master'
+
+# NOTE(tkajinam): Pinnned due to LP#1862434
+mod 'collectd',
+  :git => 'https://github.com/voxpupuli/puppet-collectd',
+  :ref => '25904923910c6e3316d762a1817fc10313b9ca21'
+
+# see https://github.com/rdo-packages/puppet-keepalived-distgit/blob/rpm-master/puppet-keepalived.spec
+mod 'keepalived',
+  :git => 'https://github.com/Unyonsys/puppet-module-keepalived',
+  :ref => 'bbca37ade629a9178f09366fd0368187fb645f4e'
+
+mod 'redis',
+  :git => 'https://github.com/voxpupuli/puppet-redis',
+  :ref => 'master'
+
+# NOTE(aschultz): in puppet 6 this was extracted out
+mod 'selinux_core',
+  :git => 'https://github.com/puppetlabs/puppetlabs-selinux_core',
+  :ref => 'main'

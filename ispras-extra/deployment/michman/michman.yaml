@@ -1,0 +1,280 @@
+heat_template_version: rocky
+
+description: >
+  Michman service. Vault not included, see vault.yaml
+
+parameters:
+  ContainerMichmanRestImage:
+    default: ''
+    description: image for michman-rest container
+    type: string
+  ContainerMichmanLauncherImage:
+    default: ''
+    description: image for michman-launcher container
+    type: string
+  ContainerVaultImage:
+    default: ''
+    description: image for michman-vault-init container
+    type: string
+  ServiceData:
+    default: {}
+    description: Dictionary packing service data
+    type: json
+  ServiceNetMap:
+    default: {}
+    type: json
+  RoleName:
+    default: ''
+    description: Role name on which the service is applied
+    type: string
+  RoleParameters:
+    default: {}
+    description: Parameters specific to the role
+    type: json
+  DefaultPasswords:
+    default: {}
+    type: json
+  EndpointMap:
+    default: {}
+    type: json
+  MichmanPassword:
+    description: The password for db account, used by the michman
+    type: string
+    hidden: true
+  MichmanOpenstackPassword:
+    description: The password for michman user in Openstack
+    type: string
+    hidden: true
+  MichmanDatabaseName:
+    description: Name of mysql database used by michman
+    type: string
+    default: michman
+  MichmanDatabaseUser:
+    description: Mysql user for michman
+    type: string
+    default: michman
+  MichmanBootFromVolume:
+    description: boot_from_volume parameter from main config
+    type: boolean
+    default: true
+  MichmanVaultPath:
+    description: prefix for michman secret engine in vault
+    type: string
+    default: 'michman'
+  MichmanOpenstackKeyPath:
+    description: os_key parameter from main config
+    type: string
+    default: 'openstack'
+  MichmanSshKeyPath:
+    description: ssh_key parameter from main config
+    type: string
+    default: 'ssh_key'
+  MichmanMysqlKeyPath:
+    description: mysql_key parameter from main config
+    type: string
+    default: 'mysql'
+  MichmanOpenstackKeyName:
+    description: os_key_name parameter from main config
+    type: string
+    default: 'michman'
+  MichmanSshKey:
+    description: private RSA ssh key
+    type: string
+    hidden: true
+  MichmanProject:
+    description: Openstack project for michman
+    type: string
+    default: 'michman'
+  KeystoneRegion:
+    description: keystine region
+    type: string
+    default: 'regionOne'
+
+  
+
+outputs:
+  role_data:
+    description: michman containers
+    value:
+      service_name: michman
+      upgrade_tasks: []
+      step_config: ''
+      firewall_rules:
+        '201 michman-rest':
+          dport:
+            - 8081
+        '202 michman-launcher':
+          dport:
+            - 5001
+      keystone_resources:
+        michman:
+          users:
+            michman:
+              password: {get_param: MichmanOpenstackPassword}
+          project: {get_param: MichmanProject}
+          region: {get_param: KeystoneRegion}
+          service: 'orchestrator'
+          roles:
+            - michman
+
+      config_settings:
+        map_merge:
+          - michman::config::ssh_key_name: {get_param: MichmanOpenstackKeyName}
+            michman::config::ssh_key: {get_param: MichmanSshKey}
+            michman::config::os_version: Ussuri
+            michman::config::vault_prefix: {get_param: MichmanVaultPath}
+            michman::config::boot_from_volume: {get_param: MichmanBootFromVolume}
+            michman::config::os_key_path: {get_param: MichmanOpenstackKeyPath}
+            michman::config::ssh_key_path: {get_param: MichmanSshKeyPath}
+            michman::config::mysql_key_path: {get_param: MichmanMysqlKeyPath}
+            michman::config::mysql_addr: {get_param: [EndpointMap, MysqlInternal, host]}
+            michman::config::database_name: {get_param: MichmanDatabaseName}
+            michman::config::database_password: {get_param: MichmanPassword}
+            michman::config::database_user: {get_param: MichmanDatabaseUser}
+            michman::config::vault_addr: {get_param: [EndpointMap, MysqlInternal, host]}
+            michman::config::vault_port: 8200
+            michman::config::keystone_addr: {get_param: [EndpointMap, KeystonePublic, host]}
+            michman::config::openstack_password: {get_param: MichmanOpenstackPassword}
+            michman::config::project_name: {get_param: MichmanProject} 
+            michman::config::region_name: {get_param: KeystoneRegion}
+            michman::config::openstack_username: michman
+      puppet_config:
+        config_volume: michman
+        puppet_tags: michman_config
+        step_config: include tripleo::profile::base::michman
+        config_image: {get_param: ContainerMichmanRestImage}
+      kolla_config:
+        /var/lib/kolla/config_files/michman-launcher.json:
+          command: /opt/michman/michman-launcher-start
+          config_files:
+            - source: "/var/lib/kolla/config_files/src/*"
+              dest: "/"
+              merge: true
+              preserve_properties: true
+        /var/lib/kolla/config_files/michman-rest.json:
+          command: /opt/michman/michman-rest-start
+          config_files:
+            - source: "/var/lib/kolla/config_files/src/*"
+              dest: "/"
+              merge: true
+              preserve_properties: true
+        /var/lib/kolla/config_files/michman-vault-init.json:
+          command: /opt/michman/michman-vault-init
+
+      docker_config:
+        step_4:
+          michman-vault-init:
+            image: {get_param: ContainerVaultImage}
+            net: host
+            privileged: true
+            detach: true
+            user: root
+            volumes:
+              - /var/lib/kolla/config_files/michman-vault-init.json:/var/lib/kolla/config_files/config.json:ro
+              - /opt/michman:/opt/michman
+              - /etc/vault:/etc/vault/file:ro
+              - /var/lib/config-data/puppet-generated/michman:/var/lib/kolla/config_files/src:rw
+            environment:
+              KOLLA_CONFIG_STRATEGY: COPY_ALWAYS
+              VAULT_ADDR: {get_param: [EndpointMap, MysqlInternal, host]}
+              VAULT_PREFIX: {get_param: MichmanVaultPath}
+              MICHMAN_OS_PATH: {get_param: MichmanOpenstackKeyPath}
+              MICHMAN_SSH_PATH: {get_param: MichmanSshKeyPath}
+              MICHMAN_MYSQL_PATH: {get_param: MichmanMysqlKeyPath}
+
+        step_5:
+          michman-launcher:
+            start_order: 1
+            image: {get_param: ContainerMichmanLauncherImage}
+            net: host
+            privileged: true
+            detach: true
+            user: root
+            volumes:
+              - /var/lib/kolla/config_files/michman-launcher.json:/var/lib/kolla/config_files/config.json:ro
+              - /var/lib/config-data/puppet-generated/michman:/var/lib/kolla/config_files/src:ro
+              - /opt/michman:/opt/michman
+            environment:
+              KOLLA_CONFIG_STRATEGY: COPY_ALWAYS
+          michman-rest:
+            image: {get_param: ContainerMichmanRestImage}
+            net: host
+            privileged: true
+            detach: true
+            user: root
+            volumes:
+              - /var/lib/kolla/config_files/michman-rest.json:/var/lib/kolla/config_files/config.json:ro
+              - /var/lib/config-data/puppet-generated/michman:/var/lib/kolla/config_files/src:ro
+              - /opt/michman:/opt/michman
+            environment:
+              KOLLA_CONFIG_STRATEGY: COPY_ALWAYS
+      service_config_settings:
+        mysql:
+          michman::db::mysql::password: {get_param: MichmanPassword}
+          michman::db::mysql::user: {get_param: MichmanDatabaseUser}
+          michman::db::mysql::host: {get_param: [EndpointMap, MysqlInternal, host_nobrackets]}
+          michman::db::mysql::dbname: {get_param: MichmanDatabaseName}
+          michman::db::mysql::allowed_hosts:
+            - '%'
+            - "%{hiera('mysql_bind_host')}"
+      fast_forward_upgrade_tasks:
+        - when:
+            - step|int == 0
+            - release == 'rocky'
+          block:
+            - name: Set fact michman_enabled
+              set_fact:
+                michman_enabled: true
+      external_deploy_tasks:
+        #- name: Michman bootstrap
+         # when:
+         #   - step|int == 6
+         #   - is_bootstrap_node|bool
+         # block:
+         #   - name: Generate public from private
+         #     openssh_keypair:
+         #       path: /var/lib/config-data/puppet-generated/michman/etc/michman/configs/ssh_key
+         #       force: True
+         #     register: public_key
+         #   - name: Create nova keypair for michman
+         #    os_keypair:
+         #       region_name: {get_param: KeystoneRegion}
+         #       public_key: "{{ public_key.public_key }}"
+         #       name: {get_param: MichmanOpenstackKeyName}
+         #       auth:
+         #         auth_url: {get_param: [EndpointMap, KeystonePublic, host]}
+         #         username: michman
+         #         password: {get_param: MichmanOpenstackPassword}
+         #         project_name: {get_param: MichmanProject}
+         #         user_domain_name: Default
+         #         project_domain_name: Default
+
+        - name: Michman keypair bootstrap
+          when:
+            - step|int == 5
+          block:
+            - name: temp file for private
+              tempfile:
+                state: file
+              register: tmpfile
+            - name: copy ssh key to tmpfile
+              copy:
+                content: { get_param: MichmanSshKey }
+                dest: "{{ tmpfile.path }}"
+            - name: Generate public from private
+              openssh_keypair:
+                path: "{{ tmpfile.path }}"
+                force: True
+              register: public_key
+            - name: Create nova keypair for michman
+              os_keypair:
+                region_name: regionOne
+                public_key: "{{ public_key.public_key }}"
+                name: michman
+                auth:
+                  auth_url: {get_param: [EndpointMap, KeystonePublic, uri_no_suffix]}
+                  username: michman
+                  password: { get_param: MichmanOpenstackPassword }
+                  project_name: { get_param: MichmanProject }
+                  user_domain_name: Default
+                  project_domain_name: Default

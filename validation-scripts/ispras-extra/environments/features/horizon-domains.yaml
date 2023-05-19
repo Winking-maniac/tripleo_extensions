@@ -1,4 +1,0 @@
-parameter_defaults:
-  HorizonDomainChoices:
-  - display: The restricted domain
-    name: default

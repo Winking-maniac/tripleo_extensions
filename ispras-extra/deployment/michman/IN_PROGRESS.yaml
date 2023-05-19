@@ -1,0 +1,92 @@
+heat_template_version: rocky
+
+description: >
+  Hello-world container
+
+parameters:
+  ContainerHelloWorldPuppetImage:
+    default: ''
+    description: no description
+    type: string
+  ServiceData:
+    default: {}
+    description: Dictionary packing service data
+    type: json
+  ServiceNetMap:
+    default: {}
+    type: json
+  RoleName:
+    default: ''
+    description: Role name on which the service is applied
+    type: string
+  RoleParameters:
+    default: {}
+    description: Parameters specific to the role
+    type: json
+  DefaultPasswords:
+    default: {}
+    type: json
+  EndpointMap:
+    default: {}
+    type: json
+  VaultPassword:
+    default: 'defaultpass'
+    description: The password for db account, used by the vault.
+    type: string
+    hidden: true
+  KeystoneRegion:
+    type: string
+    default: 'regionOne'
+    description: Keystone region for endpoint
+
+outputs:
+  role_data:
+    description: hello-world container start
+    value:
+      service_name: hello_world_puppet
+      upgrade_tasks: []
+      step_config: ''
+      firewall_rules:
+        '200 vault':
+          dport:
+            - 8200
+      keystone_resources:
+        vault:
+          endpoints:
+            public: {get_param: [EndpointMap, GlancePublic, uri]}
+            internal: {get_param: [EndpointMap, GlanceInternal, uri]}
+            admin: {get_param: [EndpointMap, GlanceAdmin, uri]}
+          users:
+            vault:
+              password: {get_param: VaultPassword}
+          region: {get_param: KeystoneRegion}
+          service: 'secret store'
+
+      docker_config:
+        step_4:
+          hello_world_puppet:
+            image: {get_param: ContainerHelloWorldPuppetImage}
+            net: host
+            detach: true
+            user: root
+            command: ['/bin/sh']
+      service_config_settings:
+        mysql:
+          vault::db::mysql::password: {get_param: VaultPassword}
+          vault::db::mysql::user: vault
+          vault::db::mysql::host: {get_param: [EndpointMap, MysqlInternal, host_nobrackets]}
+          vault::db::mysql::dbname: vault
+          vault::db::mysql::allowed_hosts:
+            - '%'
+            - "%{hiera('mysql_bind_host')}"
+      fast_forward_upgrade_tasks:
+        - when:
+            - step|int == 0
+            - release == 'rocky'
+          block:
+            - name: Set fact vault_api_enabled
+              set_fact:
+                vault_api_enabled: true
+
+
+

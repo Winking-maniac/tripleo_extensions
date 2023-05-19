@@ -1,8 +1,0 @@
-description: 'Default Deployment plan
-
-  '
-environments:
-- path: overcloud-resource-registry-puppet.yaml
-name: overcloud
-template: overcloud.yaml
-version: '1.0'

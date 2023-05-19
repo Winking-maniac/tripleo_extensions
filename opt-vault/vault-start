@@ -1,0 +1,31 @@
+#!/bin/bash
+set -m
+
+vault server -config /etc/vault/config &
+
+curl http://localhost:8200
+rc=$?
+while [ "$rc" -ne "0" ]; do
+    sleep 0.1
+    curl http://localhost:8200
+    rc=$?
+done
+
+if [ ! -f /etc/vault/file/keys ]; then
+    touch /etc/vault/file/keys
+    VAULT_ADDR=http://localhost:8200 vault operator init -format table -key-shares=1 -key-threshold=1 >/etc/vault/file/keys
+fi
+
+cat /etc/vault/file/keys | grep "Root Token" | sed "s/.*:\\s*//" | tr -d '[:space:]' >/etc/vault/file/root_token
+cat /etc/vault/file/keys | grep "Unseal Key" | sed "s/.*:\\s*//" | tr -d '[:space:]' >/etc/vault/file/unseal_key
+
+UNSEAL_KEY=`cat /etc/vault/file/unseal_key`
+ROOT_TOKEN=`cat /etc/vault/file/root_token`
+VAULT_ADDR=http://localhost:8200 VAULT_TOKEN="$ROOT_TOKEN"  vault status -format json
+
+if [ $? = 2 ]; then
+    VAULT_ADDR=http://localhost:8200 vault operator unseal "$UNSEAL_KEY"
+fi
+
+fg
+

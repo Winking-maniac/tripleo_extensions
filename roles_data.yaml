@@ -151,6 +151,7 @@
   - OS::TripleO::Services::HelloWorld
   - OS::TripleO::Services::HelloWorldContainer
   - OS::TripleO::Services::Vault
+  - OS::TripleO::Services::Michman
   default_route_networks:
   - External
   deprecated_nic_config_name: controller.yaml

@@ -1,4 +1,0 @@
-parameter_defaults:
-  EnableInstanceHA: true
-resource_registry:
-  OS::TripleO::Services::ComputeInstanceHA: ../../../deployment/pacemaker/compute-instanceha-baremetal-puppet.yaml

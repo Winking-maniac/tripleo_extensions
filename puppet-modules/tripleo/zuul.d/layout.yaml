@@ -1,0 +1,34 @@
+- project-template:
+    name: puppet-tripleo-module-unit-jobs
+    check:
+      jobs:
+        - puppet-openstack-unit-5.5-centos-7
+        - puppet-openstack-unit-5.5-centos-8
+        - puppet-openstack-unit-6.0-ubuntu-bionic
+        - puppet-openstack-unit-latest-ubuntu-bionic:
+            voting: false
+    gate:
+      jobs:
+        - puppet-openstack-unit-5.5-centos-7
+        - puppet-openstack-unit-5.5-centos-8
+        - puppet-openstack-unit-6.0-ubuntu-bionic
+
+- project:
+    templates:
+      - puppet-openstack-check-jobs
+      - puppet-tripleo-module-unit-jobs
+      - tripleo-undercloud-jobs-pipeline
+      - tripleo-multinode-container-minimal-pipeline
+      - release-notes-jobs-python3
+      - tripleo-standalone-scenarios-pipeline
+      - tripleo-upgrades-ussuri-pipeline
+    check:
+      jobs:
+        - tripleo-ci-centos-7-scenario007-multinode-oooq-container:
+            files:
+              - ^manifests/profile/pacemaker/ovn.*$
+              - ^manifests/profile/(base|pacemaker)/neutron/plugins/ml2/ovn.*$
+              - ^manifests/profile/(base|pacemaker)/neutron/agents/ovn.*$
+              - ^manifests/profile/(base|pacemaker)/neutron/ovn.*$
+    gate:
+      queue: tripleo

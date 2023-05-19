@@ -1,0 +1,1 @@
+/usr/bin/http -config=/etc/michman/config.yaml -launcher=http://localhost:5001 -port=8081

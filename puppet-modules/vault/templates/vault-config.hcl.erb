@@ -1,0 +1,22 @@
+# This file managed by Puppet
+# Template Path: <%= @module_name %>/templates/vault-config.hcl.erb
+
+disable_mlock = true
+api_addr="http://<%= @api_addr %>:<%= @port %>"
+
+
+listener "tcp" {
+  address     = "0.0.0.0:<%= @port %>"
+  tls_disable = "true"
+}
+
+storage "mysql" {
+        ha_enabled = "true"
+        database = "<%= @database_name %>"
+        username = "<%= @database_user %>"
+        password = "<%= @database_password %>"
+        address = "<%= @mysql_addr %>"
+}
+
+
+
