@@ -148,8 +148,6 @@
   - OS::TripleO::Services::Tuned
   - OS::TripleO::Services::Vpp
   - OS::TripleO::Services::Zaqar
-  - OS::TripleO::Services::HelloWorld
-  - OS::TripleO::Services::HelloWorldContainer
   - OS::TripleO::Services::Vault
   - OS::TripleO::Services::Michman
   default_route_networks:

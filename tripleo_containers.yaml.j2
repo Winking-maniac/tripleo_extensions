@@ -23,13 +23,6 @@ container_images_template:
   - OS::TripleO::Services::AodhEvaluator
   - OS::TripleO::Services::UndercloudAodhEvaluator
 
-- imagename: "{{namespace}}/{{name_prefix}}hello-world-container{{name_suffix}}:{{tag}}"
-  image_source: tripleo
-  params:
-  - ContainerHelloWorldImage
-  services:
-  - OS::TripleO::Services::HelloWorldContainer
-
 - imagename: "{{namespace}}/{{name_prefix}}michman-rest{{name_suffix}}:{{tag}}"
   image_source: tripleo
   params:
