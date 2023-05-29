@@ -8,5 +8,5 @@
     4) `ispras-extra` содержит необходимые окружения и шаблоны, должно располагаться в одной директории с п.1 и п.2
     5) `tripleo_containers.yaml.j2` заменяет `/usr/share/tripleo-common/container-images/tripleo_containers.yaml.j2`
 - Overcloud:
-    3) `mkdir /etc/vault`
-    4) `puppet-modules` содержит модули, которые следует добавить/обновить в `/etc/puppet/modules`
+    1) `mkdir /etc/vault`
+    2) `puppet-modules` содержит модули, которые следует добавить/обновить в `/etc/puppet/modules`
