@@ -89,5 +89,38 @@ class michman::config (
     mode    => '0640'
   }
 
-}
+  file { '/opt/michman/':
+    ensure => directory,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
 
+  file { 'michman-vault-init':
+    ensure  => file,
+    path    => '/opt/michman/michman-vault-init',
+    content => file('michman/michman-vault-init'),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755'
+  }
+
+  file { 'michman-rest-start':
+    ensure  => file,
+    path    => '/opt/michman/michman-rest-start',
+    content => file('michman/michman-rest-start'),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755'
+  }
+
+  file { 'michman-launcher-start':
+    ensure  => file,
+    path    => '/opt/michman/michman-launcher-start',
+    content => file('michman/michman-launcher-start'),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755'
+  }
+
+}

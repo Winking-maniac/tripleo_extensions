@@ -28,4 +28,21 @@ class vault::config (
     group   => '0',
     mode    => '0640'
   }
+
+  file { '/opt/vault/':
+    ensure => directory,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
+
+  file { 'vault-start':
+    ensure  => file,
+    path    => '/opt/vault/vault-start',
+    content => file('vault/vault-start'),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755'
+  } 
+
 }

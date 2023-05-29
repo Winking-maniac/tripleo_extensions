@@ -2,16 +2,6 @@
   gather_facts: false
   become: true
   tasks: 
-    - copy: 
-        src: opt-michman/
-        dest: /opt/michman
-        owner: root
-        group: root
-    - copy:
-        src: opt-vault/
-        dest: /opt/vault
-        owner: root
-        group: root
     - file:
         path: /etc/vault
         state: directory
@@ -25,5 +15,15 @@
     - copy:
         src: puppet-modules/michman
         dest: /etc/puppet/modules
+        owner: root
+        group: root
+    - copy:
+        src: puppet-modules/horizon
+        dest: /usr/share/openstack-puppet/modules
+        owner: root
+        group: root
+    - copy:
+        src: puppet-modules/tripleo
+        dest: /usr/share/openstack-puppet/modules
         owner: root
         group: root

@@ -1,0 +1,4 @@
+resource_registry:
+  OS::TripleO::Services::Vault: ../../deployment/michman/vault.yaml
+parameter_defaults:
+  VaultPassword: winkingtest

@@ -1,8 +1,6 @@
 resource_registry:
-  OS::TripleO::Services::Vault: ../../deployment/michman/vault.yaml
   OS::TripleO::Services::Michman: ../../deployment/michman/michman.yaml
 parameter_defaults:
-  VaultPassword: winkingtest
   MichmanPassword: anotherwinkingtest
   MichmanEnabled: True
   MichmanOpenstackPassword: yetanotherwinkingtest

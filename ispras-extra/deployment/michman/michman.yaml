@@ -131,7 +131,7 @@ outputs:
             michman::config::database_name: {get_param: MichmanDatabaseName}
             michman::config::database_password: {get_param: MichmanPassword}
             michman::config::database_user: {get_param: MichmanDatabaseUser}
-            michman::config::vault_addr: {get_param: [EndpointMap, MysqlInternal, host]}
+            michman::config::vault_addr: localhost
             michman::config::vault_port: 8200
             michman::config::keystone_addr: {get_param: [EndpointMap, KeystonePublic, host]}
             michman::config::openstack_password: {get_param: MichmanOpenstackPassword}
@@ -160,10 +160,16 @@ outputs:
               preserve_properties: true
         /var/lib/kolla/config_files/michman-vault-init.json:
           command: /opt/michman/michman-vault-init
+          config_files:
+            - source: "/var/lib/kolla/config_files/src/*"
+              dest: "/"
+              merge: true
+              preserve_properties: true
 
       docker_config:
         step_4:
           michman-vault-init:
+            start_order: 1
             image: {get_param: ContainerVaultImage}
             net: host
             privileged: true
@@ -171,7 +177,6 @@ outputs:
             user: root
             volumes:
               - /var/lib/kolla/config_files/michman-vault-init.json:/var/lib/kolla/config_files/config.json:ro
-              - /opt/michman:/opt/michman
               - /etc/vault:/etc/vault/file:ro
               - /var/lib/config-data/puppet-generated/michman:/var/lib/kolla/config_files/src:rw
             environment:
