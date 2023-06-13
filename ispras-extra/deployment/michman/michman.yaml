@@ -81,10 +81,6 @@ parameters:
     description: private RSA ssh key
     type: string
     hidden: true
-  MichmanProject:
-    description: Openstack project for michman
-    type: string
-    default: 'michman'
   KeystoneRegion:
     description: keystine region
     type: string
@@ -111,11 +107,10 @@ outputs:
           users:
             michman:
               password: {get_param: MichmanOpenstackPassword}
-          project: {get_param: MichmanProject}
           region: {get_param: KeystoneRegion}
           service: 'orchestrator'
           roles:
-            - michman
+            - admin
 
       config_settings:
         map_merge:
@@ -135,7 +130,7 @@ outputs:
             michman::config::vault_port: 8200
             michman::config::keystone_addr: {get_param: [EndpointMap, KeystonePublic, host]}
             michman::config::openstack_password: {get_param: MichmanOpenstackPassword}
-            michman::config::project_name: {get_param: MichmanProject} 
+            michman::config::project_name: service
             michman::config::region_name: {get_param: KeystoneRegion}
             michman::config::openstack_username: michman
       puppet_config:
@@ -198,7 +193,7 @@ outputs:
             volumes:
               - /var/lib/kolla/config_files/michman-launcher.json:/var/lib/kolla/config_files/config.json:ro
               - /var/lib/config-data/puppet-generated/michman:/var/lib/kolla/config_files/src:ro
-              - /opt/michman:/opt/michman
+              - /var/log/containers/michman:/var/log/michman:rw
             environment:
               KOLLA_CONFIG_STRATEGY: COPY_ALWAYS
           michman-rest:
@@ -210,7 +205,7 @@ outputs:
             volumes:
               - /var/lib/kolla/config_files/michman-rest.json:/var/lib/kolla/config_files/config.json:ro
               - /var/lib/config-data/puppet-generated/michman:/var/lib/kolla/config_files/src:ro
-              - /opt/michman:/opt/michman
+              - /var/log/containers/michman:/var/log/michman:rw
             environment:
               KOLLA_CONFIG_STRATEGY: COPY_ALWAYS
       service_config_settings:
@@ -280,6 +275,6 @@ outputs:
                   auth_url: {get_param: [EndpointMap, KeystonePublic, uri_no_suffix]}
                   username: michman
                   password: { get_param: MichmanOpenstackPassword }
-                  project_name: { get_param: MichmanProject }
+                  project_name: service
                   user_domain_name: Default
                   project_domain_name: Default

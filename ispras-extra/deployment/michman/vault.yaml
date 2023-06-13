@@ -86,6 +86,7 @@ outputs:
             volumes:
               - /var/lib/kolla/config_files/vault.json:/var/lib/kolla/config_files/config.json:ro
               - /var/lib/config-data/puppet-generated/vault_config:/var/lib/kolla/config_files/src:ro
+              - /var/log/containers/vault:/var/log/vault:rw
               - /etc/vault/:/etc/vault/file:rw
             environment:
               KOLLA_CONFIG_STRATEGY: COPY_ALWAYS

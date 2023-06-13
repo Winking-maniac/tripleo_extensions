@@ -14,9 +14,11 @@ vault write $VAULT_PREFIX/$MICHMAN_SSH_PATH pem_key=@/var/lib/kolla/config_files
 vault write $VAULT_PREFIX/$MICHMAN_MYSQL_PATH @/var/lib/kolla/config_files/src/etc/michman/configs/mariadb_data.json
 vault write $VAULT_PREFIX/$MICHMAN_OS_PATH @/var/lib/kolla/config_files/src/etc/michman/configs/openstack_data.json
 
-MICHMAN_TOKEN=`cat /var/lib/kolla/config_files/src/etc/michman/config.yaml | grep token`
+MICHMAN_TOKEN_LINE=`cat /var/lib/kolla/config_files/src/etc/michman/config.yaml | grep token`
+MICHMAN_TOKEN=`cat /var/lib/kolla/config_files/src/etc/michman/config.yaml | grep token | sed "s/token: //"`
 
 if  [[ "$MICHMAN_TOKEN" == "" ]]; then
+    sed -i "/token:/d" /var/lib/kolla/config_files/src/etc/michman/config.yaml
     echo "token: $VAULT_TOKEN" >>/var/lib/kolla/config_files/src/etc/michman/config.yaml
 fi
 

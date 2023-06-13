@@ -1,7 +1,8 @@
 #!/bin/bash
 set -m
 
-vault server -config /etc/vault/config &
+mkdir -p /var/log/vault
+vault server -config /etc/vault/config -log-level="info" >/var/log/vault/vault.log 2>&1 &
 
 curl http://localhost:8200
 rc=$?
@@ -25,6 +26,7 @@ VAULT_ADDR=http://localhost:8200 VAULT_TOKEN="$ROOT_TOKEN"  vault status -format
 
 if [ $? = 2 ]; then
     VAULT_ADDR=http://localhost:8200 vault operator unseal "$UNSEAL_KEY"
+    VAULT_ADDR=http://localhost:8200 VAULT_TOKEN="$ROOT_TOKEN" vault audit enable file file_path=/var/log/vault/vault-audit.log
 fi
 
 fg
