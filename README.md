@@ -9,4 +9,5 @@
     5) `tripleo_containers.yaml.j2` заменяет `/usr/share/tripleo-common/container-images/tripleo_containers.yaml.j2`
 - Overcloud:
     1) `mkdir /etc/vault`
-    2) `puppet-modules` содержит модули, которые следует добавить/обновить в `/etc/puppet/modules`
+    2) `mkdir /var/log/containers/michman && mkdir /var/log/containers/vault`
+    3) `puppet-modules` содержит модули, которые следует добавить/обновить в `/etc/puppet/modules`
